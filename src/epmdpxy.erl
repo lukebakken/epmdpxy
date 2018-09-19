@@ -10,8 +10,7 @@ start() ->
     EPMD_PORT =
     case os:getenv("ERL_EPMD_PORT") of
         false ->
-            {ok, DefaultPort} = application:get_env(epmdpxy, port),
-            DefaultPort;
+            application:get_env(epmdpxy, port, 4369);
         StrPort ->
             list_to_integer(StrPort)
     end,

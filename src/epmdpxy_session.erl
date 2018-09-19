@@ -99,7 +99,9 @@ handle_call(accept, From, #state{listen_socket=ListenSocket} = State) ->
 handle_call(cut_cable, _From, #state{downstream_socket=S,
                                      upstream_socket=UpS} = State) ->
     inet:setopts(S, [{active, false}]),
+    gen_tcp:close(S),
     inet:setopts(UpS, [{active, false}]),
+    gen_tcp:close(UpS),
     {reply, ok, State#state{status=cut}};
 handle_call(fix_cable, _From, #state{downstream_socket=S,
                                      upstream_socket=UpS} = State) ->
